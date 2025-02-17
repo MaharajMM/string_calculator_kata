@@ -4,30 +4,34 @@ class StringCalculator {
       return 0;
     }
 
-    String delimiter = ',';
+    List<String> delimiters = [','];
     String numbersToProcess = numbers;
 
-    // Check for custom delimiter
+    // Check for custom delimiters
     if (numbers.startsWith('//')) {
       final parts = numbers.split('\n');
       String delimiterPart = parts[0].substring(2);
 
-      // Check for delimiters of any length
       if (delimiterPart.startsWith('[') && delimiterPart.endsWith(']')) {
-        delimiter = delimiterPart.substring(1, delimiterPart.length - 1);
+        // Extract delimiters of any length
+        final regex = RegExp(r'\[(.*?)\]');
+        final matches = regex.allMatches(delimiterPart);
+        delimiters = matches.map((match) => match.group(1)!).toList();
       } else {
-        delimiter = delimiterPart;
+        delimiters = [delimiterPart];
       }
 
       numbersToProcess = parts.sublist(1).join('\n');
     }
 
-    // Replace newlines with the delimiter
-    final normalizedInput = numbersToProcess.replaceAll('\n', delimiter);
+    // Replace all delimiters with a common one
+    String processedInput = numbersToProcess;
+    for (final delimiter in delimiters) {
+      processedInput = processedInput.replaceAll(delimiter, ',');
+    }
+    processedInput = processedInput.replaceAll('\n', ',');
 
-    final parts =
-        normalizedInput.contains(delimiter) ? normalizedInput.split(delimiter) : [numbersToProcess];
-
+    final parts = processedInput.split(',');
     final numberList = parts.map((p) => p.isEmpty ? 0 : int.parse(p)).toList();
 
     // Check for negative numbers
