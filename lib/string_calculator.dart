@@ -4,8 +4,11 @@ class StringCalculator {
       return 0;
     }
 
-    if (numbers.contains(',')) {
-      final parts = numbers.split(',');
+    // Replace newlines with commas
+    final normalizedInput = numbers.replaceAll('\n', ',');
+
+    if (normalizedInput.contains(',')) {
+      final parts = normalizedInput.split(',');
       return parts.map(int.parse).reduce((a, b) => a + b);
     }
 

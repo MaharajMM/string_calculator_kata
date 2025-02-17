@@ -24,5 +24,10 @@ void main() {
       expect(calculator.add("1,2,3"), equals(6));
       expect(calculator.add("1,2,3,4,5"), equals(15));
     });
+    test('Support newlines as delimiters', () {
+      final calculator = StringCalculator();
+      expect(calculator.add("1\n2,3"), equals(6));
+      expect(calculator.add("1,2\n3"), equals(6));
+    });
   });
 }
