@@ -6,7 +6,7 @@ class StringCalculator {
 
     if (numbers.contains(',')) {
       final parts = numbers.split(',');
-      return int.parse(parts[0]) + int.parse(parts[1]);
+      return parts.map(int.parse).reduce((a, b) => a + b);
     }
 
     return int.parse(numbers);
