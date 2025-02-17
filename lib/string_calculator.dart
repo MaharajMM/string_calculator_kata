@@ -4,14 +4,24 @@ class StringCalculator {
       return 0;
     }
 
-    // Replace newlines with commas
-    final normalizedInput = numbers.replaceAll('\n', ',');
+    String delimiter = ',';
+    String numbersToProcess = numbers;
 
-    if (normalizedInput.contains(',')) {
-      final parts = normalizedInput.split(',');
+    // Check for custom delimiter
+    if (numbers.startsWith('//')) {
+      final parts = numbers.split('\n');
+      delimiter = parts[0].substring(2);
+      numbersToProcess = parts.sublist(1).join('\n');
+    }
+
+    // Replace newlines with the delimiter
+    final normalizedInput = numbersToProcess.replaceAll('\n', delimiter);
+
+    if (normalizedInput.contains(delimiter)) {
+      final parts = normalizedInput.split(delimiter);
       return parts.map(int.parse).reduce((a, b) => a + b);
     }
 
-    return int.parse(numbers);
+    return int.parse(numbersToProcess);
   }
 }
