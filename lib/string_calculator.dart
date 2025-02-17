@@ -17,11 +17,17 @@ class StringCalculator {
     // Replace newlines with the delimiter
     final normalizedInput = numbersToProcess.replaceAll('\n', delimiter);
 
-    if (normalizedInput.contains(delimiter)) {
-      final parts = normalizedInput.split(delimiter);
-      return parts.map(int.parse).reduce((a, b) => a + b);
+    final parts =
+        normalizedInput.contains(delimiter) ? normalizedInput.split(delimiter) : [numbersToProcess];
+
+    final numberList = parts.map(int.parse).toList();
+
+    // Check for negative numbers
+    final negatives = numberList.where((n) => n < 0).toList();
+    if (negatives.isNotEmpty) {
+      throw ArgumentError("Negatives not allowed: ${negatives.join(', ')}");
     }
 
-    return int.parse(numbersToProcess);
+    return numberList.reduce((a, b) => a + b);
   }
 }
