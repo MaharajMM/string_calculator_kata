@@ -42,5 +42,10 @@ void main() {
           throwsA(predicate(
               (e) => e is ArgumentError && e.message == "Negatives not allowed: -4, -5")));
     });
+    test('Numbers bigger than 1000 are ignored', () {
+      final calculator = StringCalculator();
+      expect(calculator.add("2,1001"), equals(2));
+      expect(calculator.add("1000,1"), equals(1001)); // 1000 is included
+    });
   });
 }
