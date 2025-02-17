@@ -47,5 +47,9 @@ void main() {
       expect(calculator.add("2,1001"), equals(2));
       expect(calculator.add("1000,1"), equals(1001)); // 1000 is included
     });
+    test('Support delimiters of any length', () {
+      final calculator = StringCalculator();
+      expect(calculator.add("//[***]\n1***2***3"), equals(6));
+    });
   });
 }

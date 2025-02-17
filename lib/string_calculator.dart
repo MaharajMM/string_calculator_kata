@@ -10,7 +10,15 @@ class StringCalculator {
     // Check for custom delimiter
     if (numbers.startsWith('//')) {
       final parts = numbers.split('\n');
-      delimiter = parts[0].substring(2);
+      String delimiterPart = parts[0].substring(2);
+
+      // Check for delimiters of any length
+      if (delimiterPart.startsWith('[') && delimiterPart.endsWith(']')) {
+        delimiter = delimiterPart.substring(1, delimiterPart.length - 1);
+      } else {
+        delimiter = delimiterPart;
+      }
+
       numbersToProcess = parts.sublist(1).join('\n');
     }
 
@@ -20,7 +28,7 @@ class StringCalculator {
     final parts =
         normalizedInput.contains(delimiter) ? normalizedInput.split(delimiter) : [numbersToProcess];
 
-    final numberList = parts.map(int.parse).toList();
+    final numberList = parts.map((p) => p.isEmpty ? 0 : int.parse(p)).toList();
 
     // Check for negative numbers
     final negatives = numberList.where((n) => n < 0).toList();
